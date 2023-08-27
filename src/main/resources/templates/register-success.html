@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>LuxCoin | Đăng ký tài khoản</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .auth.login-bg {
+      background: url("/assets/wallpaperflare.com_wallpaper.jpg");
+      background-size: cover;
+    }
+    .form-control.text-color{
+      color: white
+    }
+  </style>
+</head>
+<body>
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="row w-100 m-0">
+      <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+        <div class="card col-lg-6 mx-auto">
+          <div class="card-body px-5 py-5">
+            <div th:object="${user}">
+              <h3 class="card-title text-left mb-3">Chúc mừng <span th:text="${user.name}"></span>!</h3>
+              <form>
+                <div class="form-group">
+                 <h5>Bạn đã đăng kí thành công. Thư kích hoạt đã được gửi đến email <span th:text="${user.email}"></span></h5>
+                 <a class="text-warning text-decoration-none" href="/login"><i>Ấn vào đây để đăng nhập</i></a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- row ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+</body>
+</html>

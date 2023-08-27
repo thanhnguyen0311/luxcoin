@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>LuxCoin | Đăng ký tài khoản</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .auth.login-bg {
+            background: url("/assets/wallpaperflare.com_wallpaper.jpg");
+            background-size: cover;
+        }
+        .form-control.text-color{
+            color: white
+        }
+    </style>
+
+</head>
+<body>
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+            <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+                <div class="card col-lg-4 mx-auto">
+                    <div class="card-body px-5 py-5">
+                        <h3 class="card-title text-left mb-3">Đăng ký</h3>
+                        <form th:action="@{/register}" method="post" th:object="${userRegisterDto}">
+                            <div class="form-group">
+                                <label for="name">Họ và tên</label>
+                                <input type="text"  id="name" th:field="*{name}"   class="form-control text-color"  th:required>
+                                <p th:if="${#fields.hasErrors('name')}"
+                                    th:errors="*{name}"
+                                    th:class="error-message">Name Error</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" th:field="*{email}" class="form-control text-color"  th:required>
+                                <span id="emailField"></span>
+                            </div>
+                            <div class="form-group" >
+                                <label for="username">Tên đăng nhập</label>
+                                <input type="text" id="username" th:field="*{username}"  class="form-control  text-color" th:required>
+                                <span id="usernameField"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mật khẩu</label>
+                                <input type="password" id="password" th:field="*{password}" class="form-control  text-color"  th:required>
+                                <span id="passwordField"></span>
+                                <p th:if="${#fields.hasErrors('password')}"
+                                   th:errors="*{password}"
+                                   th:class="error-message">Name Error</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="repeat-password">Nhập lại mật khẩu</label>
+                                <input type="password" id="repeat-password"  class="form-control  text-color"  th:required>
+                                <span id="passwordRepeatField"></span>
+                            </div>
+                            <p class="terms">Tôi đã đọc và đồng ý với<a href="#" class="text-decoration-none"> điều khoản.</a></p>
+                            <div class="text-center">
+                                <button type="submit" onclick="return validate()" id="registerBtn" class="btn btn-primary btn-block enter-btn">Đăng ký</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- row ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    let checkPassword = false;
+    let checkRePassword = false;
+    let checkEmail = false;
+    let checkUsername = false;
+
+    function validate(){
+        return checkPassword === true && checkEmail === true && checkUsername === true && checkRePassword === true;
+    }
+    // $(document).ready(function(){
+    //     $("#registerBtn").click(function(event){
+    //         if (checkPassword === true && checkEmail === true  && checkUsername === true && checkRePassword ===true) {
+    //             let data = {
+    //                 name : $(`#name`).val(),
+    //                 username : $(`#username`).val(),
+    //                 password : $(`#password`).val(),
+    //                 email : $(`#email`).val()
+    //             };
+    //             $.ajax({
+    //                 headers: {
+    //                     'Accept': 'application/json',
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 type: "GET",
+    //                 data: data,
+    //                 dataType : 'json',
+    //                 url: "/api/register/add",
+    //                 success: function(){
+    //                 },
+    //
+    //             });
+    //             swal({
+    //                 title: "Đăng ký thành công !!",
+    //                 text: "Tài khoản của bạn đang chờ xác nhận từ email " + $(`#email`).val() + ". Xác nhận đã được gửi",
+    //                 icon: "success",
+    //                 button: "OK!",
+    //             }).then(value => window.location.replace("/login"));
+    //         }
+    //     });
+    // });
+
+    $(document).ready(function(){
+        $("#password").focusout(function(event){
+            let password = $(`#password`).val();
+            let passwordField = $("#passwordField");
+            $("p.passwordInvalid").remove();
+            if(password.length < 8){
+                passwordField.append(`<p class="passwordInvalid text-danger">Mật khẩu phải từ 8 kí tự trở lên</p>`);
+                checkPassword = false;
+            }
+            else{
+                passwordField.append(`<p class="passwordInvalid text-success">Mật khẩu hợp lệ</p>`);
+                checkPassword = true;
+            }
+            event.preventDefault();
+        });
+    });
+
+    $(document).ready(function(){
+        $("#repeat-password").focusout(function(event){
+            let passwordRepeat = $(`#repeat-password`).val();
+            let passwordRepeatField = $("#passwordRepeatField");
+            $("p.passwordRepeat").remove();
+            if(passwordRepeat !== $(`#password`).val()){
+                passwordRepeatField.append(`<p class="passwordRepeat text-danger">Mật khẩu nhập lại không trùng khớp</p>`);
+                checkRePassword = false;
+            }
+            else{
+                checkRePassword = true;
+            }
+            event.preventDefault();
+        });
+    });
+
+    $(document).ready(function(){
+        $("#email").focusout(function(event){
+            let email = $(`#email`).val();
+            let emailField = $("#emailField");
+            $("p.emailInvalid").remove();
+            if(!email.match(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)){
+                emailField.append(`<p class="emailInvalid text-danger">Email không hợp lệ !</p>`);
+                checkEmail = false;
+            }
+            else{
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    data: email,
+                    //tên API
+                    url: "/api/v1/register/checkEmail",
+                    //xử lý khi thành công
+                    success: function(){
+                        emailField.append(`<p class="emailInvalid text-success">Email hợp lệ</p>`);
+                        checkEmail = true;
+                    },
+                    error: function(){
+                        emailField.append(`<p class="emailInvalid text-danger">Email đã được sử dụng.</p>`);
+                        checkEmail = false;
+                    }
+                });
+            }
+            event.preventDefault();
+        });
+    });
+
+
+    $(document).ready(function(){
+        $("#username").focusout(function(event){
+            let username = $(`#username`).val();
+            let usernameField = $("#usernameField");
+            $("p.invalid").remove();
+            if(username.length < 8){
+                usernameField.append(`<p class="invalid text-danger">Tên tài khoản phải từ 8 kí tự trở lên</p>`);
+                checkUsername = false;
+            }
+            else{
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "GET",
+                    // data: username,
+                    //tên API
+                    url: "/api/v1/register/check-username/" + username,
+                    //xử lý khi thành công
+                    success: function(){
+                        usernameField.append(`<p class="invalid text-success">Tên đăng nhập hợp lệ</p>`);
+                        checkUsername = true;
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error + "  |  " + status + "  |  " + xhr);
+                        usernameField.append(`<p class="invalid text-danger">Tên đăng nhập đã được sử dụng.</p>`);
+                        checkUsername = false;
+                    }
+                });
+            }
+            event.preventDefault();
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar p-0 fixed-top d-flex flex-row" th:fragment="navbar">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+    <a class="navbar-brand brand-logo-mini" href="/"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+  </div>
+  <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+      <span class="mdi mdi-menu"></span>
+    </button>
+    <ul class="navbar-nav w-100">
+      <li class="nav-item w-100">
+        <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+          <input type="text" class="form-control" placeholder="Tìm kiếm">
+        </form>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav navbar-nav-right">
+
+
+
+      <li class="nav-item nav-settings d-none d-lg-block" id="depositBtn">
+        <a class="nav-link btn btn-primary create-new-button" href="#">
+          + Nạp tiền
+        </a>
+      </li>
+
+      <li class="nav-item dropdown d-none d-lg-block" id="wallet">
+        <a class="nav-link btn btn-outline-success create-new-button" id="createbuttonDropdown" data-bs-toggle="dropdown" aria-expanded="false" href="#">Số dư : 0.00 LC</a>
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="createbuttonDropdown" >
+
+          <a class="dropdown-item justify-content-between " style="font-size:15px;">
+            <div>USDT</div>
+            <div>0.00</div>
+          </a>
+          <div class="dropdown-divider"></div>
+
+          <a class="dropdown-item justify-content-between" style="font-size:15px;">
+            <div>BTC</div>
+            <div>0.00</div>
+          </a>
+        </div>
+      </li>
+
+
+      <li class="nav-item dropdown border-left" id="inbox">
+        <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="mdi mdi-email"></i>
+          <span class="count bg-success"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+          <h6 class="p-3 mb-0">Thông báo mới</h6>
+          <div class="dropdown-divider"></div>
+
+          <a class="dropdown-item preview-item">
+            <div class="preview-thumbnail">
+              <!-- <img src="" alt="image" class="rounded-circle profile-pic"> -->
+            </div>
+            <div class="preview-item-content">
+              <p class="preview-subject ellipsis mb-1">Thành vừa gửi cho bạn tin nhắn mới</p>
+              <p class="text-muted mb-0"> 1 phút trước </p>
+            </div>
+          </a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown" id="profile">
+        <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
+          <div class="navbar-profile">
+            <img class="img-xs rounded-circle" id="avatar"  alt="" src="">
+            <p class="mb-0 d-none d-sm-block navbar-profile-name"><span id="name-user"></span></p>
+            <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"  aria-labelledby="profileDropdown">
+          <h6 class="p-3 mb-0">Tài khoản</h6>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item preview-item" href="/settings">
+            <div class="preview-thumbnail">
+              <div class="preview-icon bg-dark rounded-circle">
+                <i class="mdi mdi-account-key text-success"></i>
+              </div>
+            </div>
+            <div class="preview-item-content">
+              <p class="preview-subject mb-1">Cài đặt tài khoản</p>
+            </div>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item preview-item" onclick="logOut()">
+            <div class="preview-thumbnail">
+              <div class="preview-icon bg-dark rounded-circle">
+                <i class="mdi mdi-logout text-danger"></i>
+              </div>
+            </div>
+            <div class="preview-item-content">
+              <p class="preview-subject mb-1">Đăng xuất</p>
+            </div>
+          </a>
+        </div>
+      </li>
+    </ul>
+    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+      <span class="mdi mdi-format-line-spacing"></span>
+    </button>
+  </div>
+
+  <script>
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        type: "GET",
+        url: "http://localhost:8080/api/v1/user",
+        success: function (response) {
+          document.getElementById("name-user").innerText = response.name
+          localStorage.setItem("luxID", response.id);
+          document.getElementById("avatar").src = "data:image/png;base64," + response.image;
+          if(response.image == null){
+            document.getElementById("avatar").src = "https://i.postimg.cc/ydZkkzxS/screenshot-38.png"
+          }
+          if(response.role === "ADMIN"){
+            $(`#depositBtn`).remove();
+            $(`#wallet`).remove();
+            $(`#login-sidebar`).remove();
+            $(`#register-sidebar`).remove();
+            $(`#wallet-sidebar`).remove();
+            $(`#trade-sidebar`).remove();
+            if(window.location.href === "http://localhost:8080/"){
+             location.href = "/admin"
+            }
+          }
+          else if(response.role === "USER"){
+            $(`#login-sidebar`).remove();
+            $(`#register-sidebar`).remove();
+            $(`#users-sidebar`).remove();
+            $(`#transaction-sidebar`).remove();
+            $(`#cryptos-sidebar`).remove();
+            if(window.location.href === "http://localhost:8080/"){
+              location.href = "/user"
+            }
+          }
+          else{
+            $(`#depositBtn`).remove();
+            $(`#wallet`).remove();
+            $(`#profile`).remove();
+            $(`#inbox`).remove();
+          }
+        },
+        error: function (xhr, status, error) {
+          console.log(error);
+          document.getElementById("avatar").src = "https://i.postimg.cc/ydZkkzxS/screenshot-38.png"
+        }
+      })
+  </script>
+
+</nav>
+</body>
+
+</html>

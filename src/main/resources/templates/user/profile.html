@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/fragments/layout :: head">
+  <title>LuxCoin | Sàn giao dịch tiền mã hóa</title>
+
+</head>
+<style>
+  input[type="file"] {
+    display: none;
+  }
+  .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+</style>
+<body>
+<div class="container-scroller">
+
+  <nav th:replace="/fragments/sidebar :: sidebar"></nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <nav th:replace="/fragments/navbar :: navbar"></nav>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+<!--        <div class="row ">-->
+
+
+
+        <div class="row">
+          <div class="col-xl-4">
+
+            <div class="card">
+              <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                <img src="" id="avatar-image" width="250px" class="rounded-circle" alt="profile">
+                <h2><span id="header-name"></span></h2>
+                <h3><span id="role-description"></span></h3>
+                <div class="social-links mt-2">
+                  <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                  <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                  <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                  <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-xl-8">
+
+            <div class="card">
+              <div class="card-body pt-3">
+                <!-- Bordered Tabs -->
+                <ul class="nav nav-tabs nav-tabs-bordered">
+
+                  <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Thông tin</button>
+                  </li>
+
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Chỉnh sửa</button>
+                  </li>
+
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings" style="display: none">Settings</button>
+                  </li>
+
+                  <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Đổi mật khẩu</button>
+                  </li>
+
+                </ul>
+                <div class="tab-content pt-2" style="line-height: 2">
+
+                  <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                    <h5 class="card-title">Giới thiệu</h5>
+                    <p class="small fst-italic"><span id="description-overview"></span></p>
+
+                    <h5 class="card-title">Thông tin tài khoản</h5>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label ">Họ tên</div>
+                      <div class="col-lg-9 col-md-8"><span id="name-overview"></span></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label ">Tên đăng nhập</div>
+                      <div class="col-lg-9 col-md-8"><span id="username-overview"></span></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Email</div>
+                      <div class="col-lg-9 col-md-8"><span id="email-overview"></span></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Số điện thoại</div>
+                      <div class="col-lg-9 col-md-8"><span id="phone-overview"></span></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Vai trò</div>
+                      <div class="col-lg-9 col-md-8"><span id="role-overview"></span></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Trạng thái</div>
+                      <div class="col-lg-9 col-md-8"><span id="active-overview"></span></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Ngày tham gia</div>
+                      <div class="col-lg-9 col-md-8"><span id="date-overview"></span></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Lần cuối ghé thăm</div>
+                      <div class="col-lg-9 col-md-8"><span id="lastSeen-overview"></span></div>
+                    </div>
+
+                  </div>
+
+                  <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                    <!-- Profile Edit Form -->
+                    <form>
+                      <div class="row mb-3">
+                        <label  class="col-md-4 col-lg-3 col-form-label">Ảnh đại diện</label>
+                        <div class="col-md-8 col-lg-9">
+                          <img src="" id="avatar-preview" width="150px" >
+                          <div class="pt-2">
+                            <label class="custom-file-upload btn btn-primary btn-sm">
+                              <input id="imageFile" type="file"  ><i class="mdi mdi-cloud-upload"></i> Upload
+                            </label>
+                            <label class="custom-file-upload btn btn-danger btn-sm">
+                              <input  type="file" ><i class="mdi mdi-delete"></i> Xóa
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="name-input" class="col-md-4 col-lg-3 col-form-label">Họ tên</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="fullName" type="text" class="form-control" id="name-input">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="about-input" class="col-md-4 col-lg-3 col-form-label">Giới thiệu</label>
+                        <div class="col-md-8 col-lg-9">
+                          <textarea name="about" class="form-control" id="about-input"  style="height: 100px"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="username-input" class="col-md-4 col-lg-3 col-form-label">Tên đăng nhập</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input type="text" class="form-control" id="username-input" readonly>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="email-input" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input type="text" class="form-control" id="email-input">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="phone-input" class="col-md-4 col-lg-3 col-form-label">Số điện thoại</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="country" type="text" class="form-control" id="phone-input" >
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                        <a id="update-profile" class="btn btn-primary me-2">Cập nhật</a>
+                      </div>
+                    </form><!-- End Profile Edit Form -->
+
+                  </div>
+
+                  <div class="tab-pane fade pt-3" id="profile-change-password">
+                    <!-- Change Password Form -->
+                    <form>
+
+                      <div class="row mb-3">
+                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu hiện tại</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="password" type="password" class="form-control" id="currentPassword">
+                        </div>
+                        <div id="alertPass"></div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu mới</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Nhập lại mật khẩu</label>
+                        <div class="col-md-8 col-lg-9">
+                          <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                        <a id="password-update" class="btn btn-primary me-2">Cập nhật</a>
+                      </div>
+                    </form><!-- End Change Password Form -->
+
+                  </div>
+
+                </div><!-- End Bordered Tabs -->
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- partial:partials/_footer.html -->
+      <footer th:replace="/fragments/layout :: footer"></footer>
+      <!-- partial -->
+    </div>
+
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+
+
+
+
+<script>
+  let id = localStorage.getItem("luxID");
+  let token = localStorage.getItem("token");
+  let image ;
+  update()
+  function update(){
+  $.ajax({
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    type: "GET",
+    url: "http://localhost:8080/api/v1/user/" + id,
+    success: function (response) {
+      $(`#name-input`).val(response.name);
+      $(`#username-input`).val(response.username);
+      $(`#email-input`).val(response.email);
+      $(`#phone-input`).val(response.phone);
+      $(`#description-input`).val(response.description);
+
+      document.getElementById("header-name").innerHTML = response.name
+      document.getElementById("name-overview").innerHTML = response.name
+      document.getElementById("username-overview").innerHTML = response.username
+      document.getElementById("role-overview").innerHTML = response.role.title
+      document.getElementById("role-description").innerHTML = response.role.description
+      if(response.isActive === true){
+        document.getElementById("active-overview").innerHTML = '<div class="btn btn-outline-success">Đang hoạt động</div>'
+      }
+      else{
+        document.getElementById("active-overview").innerHTML = '<div class="btn btn-outline-danger">Không hoạt động</div>'
+      }
+      document.getElementById("lastSeen-overview").innerHTML = new Date(response.lastSeen)
+      document.getElementById("date-overview").innerHTML = new Date(response.date)
+      document.getElementById("avatar-image").src = "data:image/png;base64," + response.image
+      if(response.image == null){
+        document.getElementById("avatar").src = "https://i.postimg.cc/ydZkkzxS/screenshot-38.png"
+      }
+    },
+    error: function (xhr, status, error) {
+    }
+  })
+  }
+
+
+  $(document).ready(function(){
+    $("#update-profile").click(function(event){
+
+        let name = $(`#name-input`).val();
+        let email = $("#email-input").val();
+        let phone = $("#phone-input").val();
+        let description = $("#about-input").val();
+        let  formData = new FormData();
+      formData.append('name',name);
+      formData.append('email',email);
+      formData.append('phone',phone);
+      formData.append('description',description);
+      formData.append('image',image);
+
+        $.ajax({
+          type: "PATCH",
+          data: formData,
+          processData: false,
+          contentType: false,
+          url: "/api/v1/user/edit/" + id,
+          success: function() {
+            update()
+              swal('Thành công!', 'Thông tin tài khoản đã được chỉnh sửa!', 'success');
+          },
+          error: function(xhr, status, error) {
+            swal("Lỗi!", "Vui lòng thử lại!", "error");
+          }
+        });
+        event.preventDefault();
+    });
+  });
+
+
+  $(document).ready(function(){
+    $("#password-update").click(function(event){
+
+      let currentPass = $(`#currentPassword`).val();
+      let newPass = $("#newPassword").val();
+      let renewPass = $("#renewPassword").val();
+      if(newPass === renewPass){
+      let userPasswordEditRequest = {
+        password: currentPass,
+        newPassword: newPass
+      }
+
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' +token
+        },
+        type: "PUT",
+        data: JSON.stringify(userPasswordEditRequest),
+        url: "/api/v1/user/change-password/",
+        success: function() {
+          update()
+          swal('Thành công!', 'Thông tin tài khoản đã được chỉnh sửa!', 'success');
+        },
+        error: function(xhr, status, error) {
+          swal("Lỗi!", "Vui lòng thử lại!", "error");
+        }
+      });
+      event.preventDefault();
+      }
+      else{
+        document.getElementById("alertPass").innerHTML = '<p class="text-danger"> Mật khẩu không trùng khớp </p>'
+      }
+    });
+  });
+    // Read in file
+
+  $(document).ready(function() {
+
+    $('#imageFile').change(function(evt) {
+
+      var files = evt.target.files;
+      var file = files[0];
+
+      if (file) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          document.getElementById('avatar-preview').src = e.target.result;
+          ResizeImage()
+        };
+
+        reader.readAsDataURL(file);
+      }
+    });
+  });
+
+
+  function ResizeImage() {
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+      var filesToUploads = document.getElementById('imageFile').files;
+      var file = filesToUploads[0];
+      if (file) {
+
+        var reader = new FileReader();
+        // Set the image once loaded into file reader
+        reader.onload = function(e) {
+
+          var img = document.createElement("img");
+          img.src = e.target.result;
+
+          var canvas = document.createElement("canvas");
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+
+          var MAX_WIDTH = 300;
+          var MAX_HEIGHT = 300;
+          var width = img.width;
+          var height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          dataurl = canvas.toDataURL(file.type);
+          image = dataUrlToBlob(dataurl,'image')
+        }
+        reader.readAsDataURL(file);
+
+      }
+    } else {
+      alert('The File APIs are not fully supported in this browser.');
+    }
+  }
+
+  function dataUrlToBlob(dataUrl, filename) {
+    // Extract the Base64 data from the Data URL
+    var base64Data = dataUrl.split(',')[1];
+
+    // Convert the Base64 data to a Blob
+    var byteCharacters = atob(base64Data);
+    var byteArrays = [];
+    for (var i = 0; i < byteCharacters.length; i++) {
+      byteArrays.push(byteCharacters.charCodeAt(i));
+    }
+    var byteArray = new Uint8Array(byteArrays);
+    var blob = new Blob([byteArray], { type: 'image/jpeg' }); // Adjust the MIME type if necessary
+
+    // Create a File object from the Blob
+    var file = new File([blob], filename, { type: blob.type });
+
+    return file;
+  }
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+</html>

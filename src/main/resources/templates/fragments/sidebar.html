@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="sidebar">
+  <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+    <a class="sidebar-brand brand-logo" href="/"><img src="/assets/TextDesign.png" alt="logo" /></a>
+    <a class="sidebar-brand brand-logo-mini" href="/"><img src="/assets/LXlogo.png" alt="logo" /></a>
+  </div>
+  <ul class="nav" style="position: fixed">
+
+
+    <li class="nav-item menu-items">
+      <a class="nav-link" href="/">
+              <span class="menu-icon">
+                <i class="mdi mdi-home"></i>
+              </span>
+        <span class="menu-title">Trang chủ</span>
+      </a>
+    </li>
+
+
+    <li class="nav-item  menu-items">
+      <a class="nav-link" href="/market">
+              <span class="menu-icon">
+                <i class="mdi mdi-chart-areaspline"></i>
+              </span>
+        <span class="menu-title">Thị trường</span>
+      </a>
+    </li>
+
+
+
+      <li class="nav-item menu-items" id="wallet-sidebar">
+          <a class="nav-link" href="/wallet">
+              <span class="menu-icon">
+                <i class="mdi mdi-wallet"></i>
+              </span>
+              <span class="menu-title">Ví</span>
+          </a>
+      </li>
+
+
+      <li class="nav-item menu-items" id="cryptos-sidebar">
+          <a class="nav-link" href="/cryptos">
+              <span class="menu-icon">
+                <i class="mdi mdi-google-circles-extended"></i>
+              </span>
+              <span class="menu-title">Cryptos</span>
+          </a>
+      </li>
+
+      <li class="nav-item menu-items" id="users-sidebar">
+          <a class="nav-link" href="/users">
+              <span class="menu-icon">
+                <i class="mdi mdi-human-child"></i>
+              </span>
+              <span class="menu-title">Quản lý thành viên</span>
+          </a>
+      </li>
+
+      <li class="nav-item menu-items" id="transaction-sidebar">
+          <a class="nav-link"  href="/transaction">
+              <span class="menu-icon">
+                <i class="mdi mdi-comment-text"></i>
+              </span>
+              <span class="menu-title">Quản lý giao dịch</span>
+          </a>
+      </li>
+
+    <li class="nav-item menu-items" id="trade-sidebar">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <span class="menu-icon">
+                <i class="mdi mdi-laptop"></i>
+              </span>
+        <span class="menu-title">Giao dịch</span>
+        <i class="menu-arrow"><i class="mdi mdi-chevron-down"></i></i>
+      </a>
+      <div class="collapse" id="ui-basic">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="">Nạp tiền</a></li>
+          <li class="nav-item"> <a class="nav-link" href="">Rút tiền</a></li>
+          <li class="nav-item"> <a class="nav-link" href="">Chuyển tiền</a></li>
+          <li class="nav-item"> <a class="nav-link" href="">Lịch sử giao dịch</a></li>
+        </ul>
+      </div>
+    </li>
+
+
+
+    <li class="nav-item menu-items" id="account-sidebar">
+      <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <span class="menu-icon">
+                <i class="mdi mdi-security"></i>
+              </span>
+        <span class="menu-title">Tài khoản</span>
+        <i class="menu-arrow"><i class="mdi mdi-chevron-down"></i></i>
+      </a>
+      <div class="collapse" id="auth">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/settings"> Thông tin tài khoản </a></li>
+          <li class="nav-item"> <a class="nav-link" href="#"> Đổi mật khẩu </a></li>
+        </ul>
+      </div>
+    </li>
+
+
+
+    <li class="nav-item menu-items" id="logout-sidebar">
+      <a class="nav-link" id="log-out" onclick="logOut()" href="#">
+              <span class="menu-icon">
+                <i class="mdi mdi-logout"></i>
+              </span>
+        <span class="menu-title">Đăng xuất</span>
+      </a>
+    </li>
+    <script>
+        function logOut(){
+            document.cookie ="luxToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            localStorage.removeItem("luxID");
+            localStorage.removeItem("token");
+            location.href= "/";
+        }
+    </script>
+
+    <li class="nav-item menu-items" id="login-sidebar">
+      <a class="nav-link" href="/login">
+              <span class="menu-icon">
+                <i class="mdi mdi-login"></i>
+              </span>
+        <span class="menu-title">Đăng nhập</span>
+      </a>
+    </li>
+
+
+    <li class="nav-item menu-items" id="register-sidebar">
+      <a class="nav-link" href="/register">
+              <span class="menu-icon">
+                <i class="mdi mdi-clipboard-account"></i>
+              </span>
+        <span class="menu-title">Đăng ký</span>
+      </a>
+    </li>
+
+  </ul>
+</nav>
+
+</body>
+</html>

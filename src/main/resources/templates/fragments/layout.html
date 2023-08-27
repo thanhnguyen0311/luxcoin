@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="head">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LuxCoin | Sàn giao dịch tiền mã hóa</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <script type="text/javascript" src="/js/main.js"></script>
+  <link rel="shortcut icon" href="/assets/LXlogo.png" />
+  <style rel="stylesheet" href="/css/indexchart.css"></style>
+</head>
+<body>
+
+
+<div class="row" style="font-family: Optima, sans-serif" th:fragment="maincoin">
+  <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-9">
+            <div class="d-flex align-items-center align-self-start">
+              <h3 id="btc-price" class="mb-0">----</h3>
+              <p class="ms-2 mb-0" id="btc-24hChange">----%</p>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="icon" id="btc-icon">
+              <div class="mdi icon-item" id="btc-icon-child"></div>
+            </div>
+          </div>
+        </div>
+        <span class="fs-4"><img src="/assets/btc.png" th:width="40px" alt="btclogo"/>   BTC</span>
+        <span class="text-muted">Bitcoin</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-9">
+            <div class="d-flex align-items-center align-self-start">
+              <h3 class="mb-0" id="bnb-price">----</h3>
+              <p class="ms-2 mb-0 " id="bnb-24hChange">----%</p>
+            </div>
+          </div>
+          <div class="col-3" >
+            <div class="icon " id="bnb-icon">
+              <span class="mdi icon-item" id="bnb-icon-child"></span>
+            </div>
+          </div>
+        </div>
+        <span class="fs-4"><img src="/assets/bnb.png" th:width="40px" alt="bnblogo"/>   BNB   </span>
+        <span class="text-muted font-weight-normal fs-7" style="font-size: 90%"> Binance Coin</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-9">
+            <div class="d-flex align-items-center align-self-start">
+              <h3 class="mb-0" id="eth-price">----</h3>
+              <p class="ms-2 mb-0" id="eth-24hChange">----%</p>
+            </div>
+          </div>
+          <div class="col-3" >
+            <div class="icon" id="eth-icon">
+              <span class="mdi icon-item" id="eth-icon-child"></span>
+            </div>
+          </div>
+        </div>
+        <span class="fs-4"><img src="/assets/eth.png" th:width="40px" alt="ethlogo"/>   ETH   </span>
+        <span class="text-muted font-weight-normal fs-7">  Ethereum</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-9">
+            <div class="d-flex align-items-center align-self-start">
+              <h3 class="mb-0" id="doge-price">----</h3>
+              <p class="ms-2 mb-0 " id="doge-24hChange">----%</p>
+            </div>
+          </div>
+          <div class="col-3" >
+            <div class="icon" id="doge-icon">
+              <span class="mdi icon-item" id="doge-icon-child"></span>
+            </div>
+          </div>
+        </div>
+        <span class="fs-4"><img src="/assets/doge.png" th:width="40px" alt="dogelogo"/>   DOGE   </span>
+        <span class="text-muted font-weight-normal fs-7">  Dogecoin</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<footer th:fragment="footer" class="footer">
+  <script src="/js/vendor.bundle.base.js"></script>
+  <script src="/js/Chart.min.js"></script>
+  <script src="/js/misc.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <div class="d-sm-flex justify-content-center justify-content-sm-between">
+    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © ThanhNguyen Codegym 2023</span>
+    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"></span>
+  </div>
+</footer>
+</body>
+
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/fragments/layout :: head">
+  <title>LuxCoin | Sàn giao dịch tiền mã hóa</title>
+</head>
+<body>
+<div class="container-scroller">
+
+  <nav th:replace="/fragments/sidebar :: sidebar"></nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_navbar.html -->
+    <nav th:replace="/fragments/navbar :: navbar"></nav>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+        <div class="row ">
+          <div class="col-12 grid-margin stretch-card ">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">Danh sách coin</h3>
+                <h4 onclick="showForm()" class="btn btn-outline-light">Thêm mới  <i class="mdi mdi-plus-circle-outline" id="add-crypto-icon"></i></h4>
+                <form style="display: none" class="forms-sample ms-2 w-25 text-white" id="add-crypto-form">
+                  <div class="form-group ">
+                    <label for="crypto-name">Mã crypto:</label>
+                    <input class="form-control" th:maxlength="4" style='text-transform:uppercase' id="crypto-name" type="text">
+                    <span id="cryptoField"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="crypto-title">Tên crypto:</label>
+                    <input class="form-control" id="crypto-title" type="text">
+                  </div>
+                  <div class="form-group">
+                    <label>Logo</label>
+                      <input type="file" id="imagelogo"  alt="">
+                  </div>
+                  <div class="form-group">
+                    <a class="btn btn-success" onclick="addCrypto()">Thêm</a>
+                  </div>
+
+                </form>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                    <tr>
+                      <th> Crypto </th>
+                      <th> Giá </th>
+                      <th> Thay đổi 24h </th>
+                      <th> Giá cao nhất  </th>
+                      <th> Giá thấp nhất </th>
+                      <th> Vốn hóa thị trường </th>
+                      <th> Trạng thái </th>
+                      <th> </th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-body">
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- partial:partials/_footer.html -->
+      <footer th:replace="/fragments/layout :: footer"></footer>
+      <!-- partial -->
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+
+<script>
+
+    fetch(`http://localhost:8080/api/v1/crypto/list`)
+            .then(res => res.json())
+            .then((data) => {
+              data.map(function (crypto) {
+               let row = '                    <tr>\n' +
+                       '                      <td><img src="data:image/png;base64,'+ crypto.image +'"  width="75px" alt> <span class="fs-6">' + crypto.name + '  </span> <span class=" text-muted"> ' + crypto.title + '  </span></td>\n' +
+                       '                      <td> <span id="'+crypto.name+'-price"></span></td>\n' +
+                       '                      <td> </td>\n' +
+                       '                      <td> </td>\n' +
+                       '                      <td> </td>\n' +
+                       '                      <td> </td>\n' +
+                       '                      <td>\n' +
+                       '                        <div class="badge badge-outline-success">Đang hoạt động</div>\n' +
+                       '                      </td>\n' +
+                       '                    </tr>'
+                $(`#table-body`).append(row)
+                let ws = new WebSocket("wss://stream.binance.com:9443/ws/" + crypto.name.toLowerCase() +"usdt@trade");
+                ws.onmessage = (event) => {
+                  document.getElementById(crypto.name+'-price').innerText = parseFloat(JSON.parse(event.data).p).toFixed(2);
+                }
+                // setInterval(showPrice(crypto.name), 1000);
+              });
+            })
+            .catch(err => console.log(err))
+
+
+
+
+  let intervalCrypto
+  // function cryptoTimer(){
+  //   fetch(`http://localhost:8080/api/v1/crypto/list`)
+  //           .then(res => res.json())
+  //           .then(data => {
+  //             cdata = data.map(d => {
+  //               return {time:(d[0]/1000)+ 25200,open:parseFloat(d[1]),high:parseFloat(d[2]),low:parseFloat(d[3]),close:parseFloat(d[4])}
+  //             });
+  //           })
+  //           .catch(err => console.log(err))
+  // }
+  // // intervalCrypto =  setInterval(cryptoTimer, 1000);
+
+
+
+
+let addForm = document.getElementById("add-crypto-form");
+let addIcon = document.getElementById("add-crypto-icon");
+let checkCrypto = false;
+let cryptoField = $(`#cryptoField`);
+function showForm(){
+  if(addForm.style.display === 'block'){
+    addForm.style.display = 'none'
+  }
+  else{
+    addForm.style.display = 'block'
+  }
+}
+
+
+function addCrypto(){
+  $(`#result`).remove()
+    let name = $(`#crypto-name`).val();
+    let title = $(`#crypto-title`).val();
+    let image = document.getElementById("imagelogo").files[0];
+    let  data = new FormData();
+    data.append('name',name);
+    data.append('title',title);
+    data.append('image',image);
+        $.ajax({
+          type: "POST",
+          data: data,
+          processData: false,
+          contentType: false,
+          url: "/api/v1/crypto/add",
+          success: function(response) {
+            swal("Thành công!", "Bạn đã thêm crypto mới vào danh sách!", "success");
+            $(`#crypto-name`).val("");
+            $(`#crypto-title`).val("");
+            console.log("OK")
+            let row = '                    <tr>\n' +
+                    '                      <td><img src="data:image/png;base64,'+response.image +'"  width="75px" alt> <span class="fs-6">' + name + '  </span> <span class=" text-muted"> ' + title + '  </span></td>\n' +
+                    '                      <td> </td>\n' +
+                    '                      <td> </td>\n' +
+                    '                      <td> </td>\n' +
+                    '                      <td> </td>\n' +
+                    '                      <td> </td>\n' +
+                    '                      <td>\n' +
+                    '                        <div class="badge badge-outline-success">Đang hoạt động</div>\n' +
+                    '                      </td>\n' +
+                    '                    </tr>'
+            $(`#table-body`).append(row)
+          },
+          error: function(xhr, status, error) {
+            cryptoField.append(`<p class="invalid text-danger" id="result">File không hợp lệ</p>`);
+          }
+        });
+    }
+
+
+$(document).ready(function(){
+  $("#crypto-name").focusout(function(event){
+    let cryptoName = $(`#crypto-name`).val();
+    $("p.invalid").remove();
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        type: "GET",
+        //tên API
+        url: "/api/v1/crypto/check-crypto/" + cryptoName,
+        //xử lý khi thành công
+        success: function(){
+          cryptoField.append(`<p class="invalid text-success">Có thể sử dụng crypto này</p>`);
+        },
+        error: function(){
+          cryptoField.append(`<p class="invalid text-danger">Crypto đã tồn tại.</p>`);
+        }
+      });
+  });
+});
+
+
+function showPrice(name){
+  let ws = new WebSocket("wss://stream.binance.com:9443/ws/" + name.toLowerCase() +"usdt@trade");
+  let getPrice = null
+  let lastPrice = null
+  ws.onmessage = (event) => {
+    let stockObject = JSON.parse(event.data);
+    getPrice = parseFloat(stockObject.p).toFixed(2);
+  }
+  let price = document.getElementById(name)
+  price.innerText = getPrice;
+  price.style.color = !lastPrice || lastPrice === getPrice ? "white" : getPrice > lastPrice ? "#00cc00" : "red";
+  lastPrice = getPrice;
+
+}
+
+
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+</html>
